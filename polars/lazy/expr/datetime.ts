@@ -7,6 +7,7 @@ import { Expr, _Expr } from "../expr";
 export type ExprDateTime = DateFunctions<Expr>;
 
 export const ExprDateTimeFunctions = (_expr: any): ExprDateTime => {
+
   const wrap = (method, ...args: any[]): Expr => {
     return _Expr(_expr[method](...args));
   };
@@ -27,4 +28,5 @@ export const ExprDateTimeFunctions = (_expr: any): ExprDateTime => {
     weekday: wrapNullArgs("weekday"),
     year: wrapNullArgs("year"),
   };
+
 };

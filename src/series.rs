@@ -454,13 +454,19 @@ impl JsSeries {
         self.series.sort(reverse).into()
     }
     #[napi]
-    pub fn argsort(&self, reverse: bool, nulls_last: bool, multithreaded: bool, maintain_order: bool) -> JsSeries {
+    pub fn argsort(
+        &self,
+        reverse: bool,
+        nulls_last: bool,
+        multithreaded: bool,
+        maintain_order: bool,
+    ) -> JsSeries {
         self.series
             .arg_sort(SortOptions {
                 descending: reverse,
                 nulls_last,
                 multithreaded,
-                maintain_order
+                maintain_order,
             })
             .into_series()
             .into()
@@ -810,6 +816,22 @@ impl JsSeries {
         let ca = self.series.utf8().map_err(JsPolarsErr::from)?;
         let s = ca
             .contains(&pat, strict)
+            .map_err(JsPolarsErr::from)?
+            .into_series();
+        Ok(s.into())
+    }
+
+    #[napi(catch_unwind)]
+    pub fn str_json_extract(
+        &self,
+        dtype: Option<Wrap<DataType>>,
+        infer_schema_len: Option<i64>,
+    ) -> napi::Result<JsSeries> {
+        let ca = self.series.utf8().map_err(JsPolarsErr::from)?;
+        let dt = dtype.map(|d| d.0);
+        let infer_schema_len = infer_schema_len.map(|l| l as usize);
+        let s = ca
+            .json_extract(dt, infer_schema_len)
             .map_err(JsPolarsErr::from)?
             .into_series();
         Ok(s.into())

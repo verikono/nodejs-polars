@@ -1,0 +1,17 @@
+/** @ignore */
+export const _LazyGroupBy = (_lgb: any): LazyGroupBy => {
+    return {
+      agg(...aggs: Expr[]) {
+        aggs = selectionToExprList(aggs, false);
+        const ret = _lgb.agg(aggs.flat());
+  
+        return _LazyDataFrame(ret);
+      },
+      head(n = 5) {
+        return _LazyDataFrame(_lgb.head(n));
+      },
+      tail(n = 5) {
+        return _LazyDataFrame(_lgb.tail(n));
+      },
+    };
+  };

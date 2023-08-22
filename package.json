@@ -1,9 +1,9 @@
 {
   "name": "nodejs-polars",
-  "version": "0.8.0",
+  "version": "0.8.1",
+  "type": "module",
   "repository": "https://github.com/pola-rs/nodejs-polars.git",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "bin/index.js",
   "files": [
     "bin"
   ],
@@ -43,14 +43,18 @@
     "bench": "node -r @swc-node/register benchmark/bench.ts",
     "build": "napi build --platform  --release polars",
     "build:debug": "napi build --platform polars",
-    "build:ts": " rm -rf bin; tsc -p tsconfig.build.json",
+    "build:ts": " rm -rf bin; npm run build:common; npm run build:esm",
+    "build:common": "tsc -p tsconfig.build.json",
+    "build:esm": "node ./__esbuild__/esbuild.esm.mjs",
+    "build:types": "",
     "cp:bin": "cp ./polars/*.node bin/",
     "format:rs": "cargo fmt",
-    "lint:ts:fix": "rome check --apply-unsafe  {polars,__tests__} && rome format --write {polars,__tests__}",
-    "lint:ts": "rome check {polars,__tests__} && rome format {polars,__tests__}",
+    "lint:ts:fix": "rome check --apply-unsafe  {polars,__tests__,__esbuild__} && rome format --write {polars,__tests__,__esbuild__}",
+    "lint:ts": "rome check {polars,__tests__,__esbuild__} && rome format {polars,__tests__,__esbuild__}",
     "lint": "yarn lint:ts && yarn format:rs",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "jest",
+    "vitest": "vitest --config=vitest.config.ts",
     "version": "napi version",
     "precommit": "yarn lint && yarn test"
   },
@@ -60,16 +64,82 @@
     "@types/jest": "^29.5.3",
     "@types/node": "^20.4.2",
     "chance": "^1.1.11",
+    "esbuild": "^0.19.0",
     "jest": "^29.6.1",
     "rome": "^12.1.3",
     "source-map-support": "^0.5.21",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "typedoc": "^0.24.8",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.1"
   },
   "packageManager": "yarn@3.3.1",
   "workspaces": [
     "benches"
-  ]
+  ],
+  "exports": {
+    ".": {
+      "types": "./bin/index.d.ts",
+      "require": "./bin/index.js",
+      "import": "./bin/index.mjs"
+    },
+    "./internals": {
+      "types": "./polars/internals/index.mts",
+      "import": {
+        "types": "./polars/internals/index.mts",
+        "default": "./polars/internals/index.mts"
+      }
+    },
+    "./dataframe": {
+      "types": "./polars/dataframe/index.mts",
+      "import": {
+        "types": "./polars/dataframe/index.mts",
+        "default": "./polars/dataframe/index.mts"
+      }
+    },
+    "./datatypes": {
+      "types": "./polars/datatypes/index.mts",
+      "import": {
+        "types": "./polars/datatypes/index.mts",
+        "default": "./polars/datatypes/index.mts"
+      }
+    },
+    "./lazy": {
+      "types": "./polars/lazy/index.mts",
+      "import": {
+        "types": "./polars/lazy/index.mts",
+        "default": "./polars/lazy/index.mts"
+      }
+    },
+    "./io": {
+      "types": "./polars/io/index.mts",
+      "import": {
+        "types": "./polars/io/index.mts",
+        "default": "./polars/io/index.mts"
+      }
+    },
+    "./lazy/expr": {
+      "types": "./polars/lazy/expr/index.mts",
+      "import": {
+        "types": "./polars/lazy/expr/index.mts",
+        "default": "./polars/lazy/expr/index.mts"
+      }
+    },
+    "./series": {
+      "types": "./polars/series/index.mts",
+      "import": {
+        "types": "./polars/series/index.mts",
+        "default": "./polars/series/index.mts"
+      }
+    },
+    "./utils": {
+      "types": "./polars/utils/index.mts",
+      "import": {
+        "types": "./polars/utils/index.mts",
+        "default": "./polars/utils/index.mts"
+      }
+    }
+  }
 }

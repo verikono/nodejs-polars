@@ -2,7 +2,7 @@ import { Expr, _Expr, exprToLitOrExpr } from "./expr";
 import { Series } from "../series";
 import { DataFrame } from "../dataframe";
 import { ExprOrString, range, selectionToExprList } from "../utils";
-import pli from "../internals/polars_internal";
+import pli from "../internals/polars_internal.mjs";
 
 /**
  * __A column in a DataFrame.__
