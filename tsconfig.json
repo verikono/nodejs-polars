@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "noImplicitAny": false,
     "baseUrl": "./polars",
+    "types": [ "vitest/globals" ],
     "paths": {
       "@polars": [
         "./"
