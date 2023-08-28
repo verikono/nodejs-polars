@@ -1,0 +1,203 @@
+{
+  "name": "nodejs-polars",
+  "version": "0.8.1",
+  "type": "module",
+  "repository": "https://github.com/pola-rs/nodejs-polars.git",
+  "license": "SEE LICENSE IN LICENSE",
+  "files": [
+    "bin"
+  ],
+  "keywords": [
+    "csv",
+    "transform",
+    "parse",
+    "json",
+    "polars",
+    "dataframe",
+    "data-processing",
+    "rust"
+  ],
+  "napi": {
+    "name": "nodejs-polars",
+    "triples": {
+      "defaults": true,
+      "additional": [
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-gnu",
+        "aarch64-unknown-linux-musl",
+        "aarch64-linux-android",
+        "i686-pc-windows-msvc",
+        "x86_64-unknown-linux-musl"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">= 16"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "scripts": {
+    "artifacts": "napi artifacts",
+    "bench": "node -r @swc-node/register benchmark/bench.ts",
+    "build": "napi build --platform --release polars --dts polars/@types/bindings.mts",
+    "build:debug": "napi build --platform --dts native-polars-types.d.ts --js native-polars.cjs polars",
+    "build:ts": " rm -rf bin; npm run build:common; npm run build:esm",
+    "build:common": "tsc -p tsconfig.build.json",
+    "build:esm": "node ./__esbuild__/esbuild.esm.mjs",
+    "build:types": "",
+    "cp:bin": "cp ./polars/*.node bin/",
+    "format:rs": "cargo fmt",
+    "lint:ts:fix": "rome check --apply-unsafe  {polars,__tests__,__esbuild__} && rome format --write {polars,__tests__,__esbuild__}",
+    "lint:ts": "rome check {polars,__tests__,__esbuild__} && rome format {polars,__tests__,__esbuild__}",
+    "lint": "yarn lint:ts && yarn format:rs",
+    "prepublishOnly": "napi prepublish -t npm",
+    "test": "jest",
+    "vitest": "vitest",
+    "version": "napi version",
+    "precommit": "yarn lint && yarn test"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.16.2",
+    "@types/chance": "^1.1.3",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.4.2",
+    "chance": "^1.1.11",
+    "esbuild": "^0.19.0",
+    "jest": "^29.6.1",
+    "rome": "^12.1.3",
+    "source-map-support": "^0.5.21",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.24.8",
+    "typescript": "5.1.6",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.1"
+  },
+  "packageManager": "yarn@3.3.1",
+  "workspaces": [
+    "benches"
+  ],
+  "exports": {
+    "./native-polars": {
+      "types": "./polars/native-polars-types.d.ts",
+      "import": {
+        "types": "./polars/native-polars.mjs",
+        "default": "./polars/native-polars.mjs"
+      }
+    },
+    ".": {
+      "types": "./polars/index.mts",
+      "import": {
+        "types": "./polars/index.mts",
+        "default": "./polars/index.mts"
+      }
+    },
+    "./dataframe": {
+      "types": "./polars/dataframe/index.mts",
+      "import": {
+        "types": "./polars/dataframe/index.mts",
+        "default": "./polars/dataframe/index.mts"
+      }
+    },
+    "./datatype": {
+      "types": "./polars/datatype/index.mts",
+      "import": {
+        "types": "./polars/datatype/index.mts",
+        "default": "./polars/datatype/index.mts"
+      }
+    },
+    "./error": {
+      "types": "./polars/error/index.mts",
+      "import": {
+        "types": "./polars/error/index.mts",
+        "default": "./polars/error/index.mts"
+      }
+    },
+    "./expression": {
+      "types": "./polars/expression/index.mts",
+      "import": {
+        "types": "./polars/expression/index.mts",
+        "default": "./polars/expression/index.mts"
+      }
+    },
+    "./internals": {
+      "types": "./polars/internals/index.mts",
+      "import": {
+        "types": "./polars/internals/index.mts",
+        "default": "./polars/internals/index.mts"
+      }
+    },
+    "./io": {
+      "types": "./polars/io/index.mts",
+      "import": {
+        "types": "./polars/io/index.mts",
+        "default": "./polars/io/index.mts"
+      }
+    },
+    "./lazy": {
+      "types": "./polars/lazy/index.mts",
+      "import": {
+        "types": "./polars/lazy/index.mts",
+        "default": "./polars/lazy/index.mts"
+      }
+    },
+    "./lazy/expr": {
+      "types": "./polars/lazy/expr/index.mts",
+      "import": {
+        "types": "./polars/lazy/expr/index.mts",
+        "default": "./polars/lazy/expr/index.mts"
+      }
+    },
+    "./lazy/groupby": {
+      "types": "./polars/lazy/groupby/index.mts",
+      "import": {
+        "types": "./polars/lazy/groupby/index.mts",
+        "default": "./polars/lazy/groupby/index.mts"
+      }
+    },
+    "./series": {
+      "types": "./polars/series/index.mts",
+      "import": {
+        "types": "./polars/series/index.mts",
+        "default": "./polars/series/index.mts"
+      }
+    },
+    "./types": {
+      "types": "./polars/@types/index.mts",
+      "import": {
+        "types": "./polars/@types/index.mts",
+        "default": "./polars/@types/index.mts"
+      }
+    },
+    "./types/traits": {
+      "types": "./polars/@types/traits/index.mts",
+      "import": {
+        "types": "./polars/@types/traits/index.mts",
+        "default": "./polars/@types/traits/index.mts"
+      }
+    },
+    "./types/options": {
+      "types": "./polars/@types/options/index.mts",
+      "import": {
+        "types": "./polars/@types/options/index.mts",
+        "default": "./polars/@types/options/index.mts"
+      }
+    },
+    "./types/protocols": {
+      "types": "./polars/@types/protocols/index.mts",
+      "import": {
+        "types": "./polars/@types/protocols/index.mts",
+        "default": "./polars/@types/protocols/index.mts"
+      }
+    },
+    "./util": {
+      "types": "./polars/util/index.mts",
+      "import": {
+        "types": "./polars/util/index.mts",
+        "default": "./polars/util/index.mts"
+      }
+    }
+  }
+}

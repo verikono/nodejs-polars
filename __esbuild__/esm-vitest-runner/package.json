@@ -1,0 +1,12 @@
+{
+  "name": "esm-vitest-runner",
+  "type": "module",
+  "packageManager": "yarn@4.0.0-rc.50",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "esbuild": "^0.19.2"
+  }
+}
