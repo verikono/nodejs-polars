@@ -1043,10 +1043,8 @@ export function _Series(_s: any): Series {
   };
   const dtypeWrap = (method: string, ...args: any[]) => {
     const dtype = _s.dtype;
-
     const dt = (DTYPE_TO_FFINAME as any)[dtype];
     const internalMethod = `series${method}${dt}`;
-
     return _Series(pli[internalMethod](_s, ...args));
   };
 

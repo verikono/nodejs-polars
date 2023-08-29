@@ -1321,6 +1321,8 @@ macro_rules! impl_arithmetic {
   ($name:ident, $type:ty, $operand:tt) => {
       #[napi(catch_unwind)]
       pub fn $name(s: &JsSeries, other: JsAnyValue) -> napi::Result<JsSeries> {
+                        
+          println!("@@@@@@@@@@@@@@ORRRRRRRRRRRRRRRRIBLE!");
           let other: $type = other.try_into()?;
           Ok(JsSeries::new(&s.series $operand other))
       }

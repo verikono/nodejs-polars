@@ -12,7 +12,6 @@ pub enum JsPolarsErr {
 impl std::convert::From<JsPolarsErr> for napi::Error {
     fn from(err: JsPolarsErr) -> napi::Error {
         let reason = format!("{}", err);
-
         napi::Error::from_reason(reason)
     }
 }
